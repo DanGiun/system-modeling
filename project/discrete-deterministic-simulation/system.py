@@ -2,9 +2,9 @@ import random
 
 
 class RatingSystem:
-    def __init__(self, base_rating: int = 100):
+    def __init__(self, base_rating: int = 100, delta: int = 50):
         self.base_rating = base_rating
-        self.delta = 50
+        self.delta = delta
 
     def game_logic(self, player_rating: int, opponent_rating: int) -> str:
         """
