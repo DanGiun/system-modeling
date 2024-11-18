@@ -7,14 +7,17 @@ class RatingSystem:
         self.base_rating = base_rating
         self.delta = delta
 
-    def game_logic(self, player_rating: int, opponent_rating: int) -> str:
+    def game_logic(self, player_rating: int, opponent_rating: int, trace: bool = True) -> str:
         """
         Функция отвечает за определение победы и поражения в зависимости от рейтинга игроков
         :param player_rating: значение рейтинга отслеживаемого в модели игрока
         :param opponent_rating: значение рейтинга сгенерированного оппонента
+        :param trace: переменная отвечает за включение/открючение вывода данных
         :return: возвращается значение результата матча
         """
         if abs(player_rating - opponent_rating) < self.delta // 5:
+            if trace:
+                print("players have same rating")
             lcg = SimpleLCG(random.random())
             number = int(lcg.random_uniform_int(1, 10))
             if 1 <= number < 3:
@@ -24,6 +27,8 @@ class RatingSystem:
             elif 9 <= number <= 10:
                 return "win"
         elif player_rating - opponent_rating < 0:
+            if trace:
+                print("opponent has higher rating")
             lcg = SimpleLCG(random.random())
             number = int(lcg.random_uniform_int(1, 10))
             if 1 <= number < 7:
@@ -33,6 +38,8 @@ class RatingSystem:
             elif 9 <= number <= 10:
                 return "win"
         else:
+            if trace:
+                print("player has higher rating")
             lcg = SimpleLCG(random.random())
             number = int(lcg.random_uniform_int(1, 10))
             if 1 <= number < 3:
@@ -64,7 +71,7 @@ class RatingSystem:
         low_lim = self.base_rating - self.delta if self.base_rating - self.delta >= 0 else 0
         high_lim = self.base_rating + self.delta
         new_opponent = random.randint(low_lim, high_lim)
-        game_result = self.game_logic(self.base_rating, new_opponent)
+        game_result = self.game_logic(self.base_rating, new_opponent, trace)
         self.rating_update(game_result)
         if trace:
             print("rating after game: ", self.base_rating)
